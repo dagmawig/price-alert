@@ -1,0 +1,31 @@
+.home {
+    width: 98%;
+    margin: 0 1%;
+    padding: 0;
+    height: 100vh;
+}
+.home_profile {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    width: 100%;
+}
+.home_card {
+
+}
+img {
+    margin: 10px auto;
+    width: 50%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+.home_name > h4 {
+    text-align: center;
+}
+.home_list {
+    height: 300px;
+    overflow: scroll;
+}
+.footer {
+
+}
