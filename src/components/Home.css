@@ -60,7 +60,7 @@ img {
     margin: 0;
     font-size: 10pt;
 }
-.original_price_number, .target_price_number, .current_price_number {
+.original_price_title, .target_price_title, .current_price_title, .original_price_number, .target_price_number, .current_price_number {
     margin: 0;
     text-align: right;
 }

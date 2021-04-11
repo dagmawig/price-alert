@@ -16,22 +16,22 @@ function Home() {
                             </div>
                             <div className="price_section col-8">
                                 <div className="price row">
-                                    <div className="original_price_title col-7">
+                                    <div className="original_price_title col-6">
                                         Original Price:
                                         </div>
-                                    <div className="original_price_number col-5">
+                                    <div className="original_price_number col-6">
                                         $450.00
                                         </div>
-                                    <div className="target_price_title col-7">
+                                    <div className="target_price_title col-6">
                                         Target Price:
                                         </div>
-                                    <div className="target_price_number col-5">
+                                    <div className="target_price_number col-6">
                                         $400.00
                                         </div>
-                                    <div className="current_price_title col-7">
+                                    <div className="current_price_title col-6">
                                         Current Price:
                                         </div>
-                                        <div className="current_price_number col-5">
+                                    <div className="current_price_number col-6">
                                         $415.00
                                         </div>
                                 </div>
