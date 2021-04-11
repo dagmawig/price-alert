@@ -41,7 +41,18 @@ function Home() {
                 </h2>
                 <div id={`collapse${val}`} className="accordion-collapse collapse" aria-aria-labelledby={`heading${val}`} data-bs-parent="#accordion-parent">
                     <div className="accordion-body">
-                        detail
+                        <div className="item_detail row">
+                            <div className ="date_added_title col-4">
+                                Date Added:
+                            </div>
+                            <div className ="date_added_date col-5">
+                                Wed Mar 24 2021
+                            </div>
+                            <button className="visit_item_button btn btn-outline-success col-3" type="button">
+                              Visit Item <i className="fa fa-chevron-right fa" ></  i>
+                            </button>
+
+                        </div>
                     </div>
                 </div>
             </div>

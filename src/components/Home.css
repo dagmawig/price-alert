@@ -64,3 +64,22 @@ img {
     margin: 0;
     text-align: right;
 }
+.accordion-body {
+    background-color: lightyellow;
+    padding: 10px;
+}
+.item_detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    font-size: 10pt;
+}
+.date_added_title {
+    text-align: center;
+}
+.visit_item_button {
+    font-size: 10pt;
+    padding: 2px 0;
+}
