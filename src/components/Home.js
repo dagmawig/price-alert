@@ -3,6 +3,13 @@ import './Home.css';
 
 
 function Home() {
+
+    function openAddItem() {
+        window.$('#openAddItem').modal('show');
+    }
+    function openList() {
+        window.$('#openAddToList').modal('show');
+    }
     let total = Array.from(Array(10).keys());
     console.log(total)
     const item = total.map((val, i) => {
@@ -74,20 +81,15 @@ function Home() {
                     </div>
                 </div>
             </div>
+            <div className="home_add_item row">
+                <button className="add_item_button btn btn-outline-success col-6" type="button" onClick={openAddItem}>
+                    ADD ITEM
+                </button>
+                <button className="col-4" onClick={openList}>
+                    test list
+                </button>
+            </div>
             <div className="home_item row">
-                {/* <div className="home_item_heading col-12">
-                    <div className="item_heading_row row">
-                        <div className="item_name col-3">
-                            Item Name
-                        </div>
-                        <div className="current_price col-3">
-                            Current Price
-                        </div>
-                        <div className="target_price col-3">
-                            Target Price
-                        </div>
-                    </div>
-                </div> */}
                 <div className="accordion col-12" id="accordion-parent">
                     {item}
                 </div>
@@ -95,6 +97,73 @@ function Home() {
             <nav className="home_footer navbar fixed-bottom bg-warning">
                 gdfgsdfgsdf
             </nav>
+
+            <div className="modal" id="openAddItem" tabindex="-1">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header bg-warning">
+                            <h5 className="modal-title fw-bold">CONFIRM ITEM URL</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body add_item_modal_body row">
+                            <div className="modal_url_title col-4">
+                                URL:
+                            </div>
+                            <div className="modal_url_box col-8">
+                                <input className="modal_url_input" type="text" placeholder="add amazon item url"></input>
+                            </div>
+                            <div className="modal_current_price_title col-4">
+                                Current Price:
+                            </div>
+                            <div className="moda_current_price_box col-3">
+                                <input className="modal_current_price_input" type="number" placeholder="$"></input>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-warning">Confirm Price</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal" id="openAddToList" tabindex="-1">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header bg-warning">
+                            <h5 className="modal-title fw-bold" style={{"font-size": "12pt"}}>ENTER TARGET PRICE <span style={{"font-size": "18pt"}}>OR</span> % DISCOUNT</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body add_item_modal_body row">
+                            <div className="modal_confirmed_price_title col-12">
+                                CURRENT PRICE
+                            </div>
+                            <div className="modal_confirmed_price col-12">
+                                Confrmed Price
+                            </div>
+                            <div className="modal_target_price_title col-6">
+                                Target Price:
+                            </div>
+                            <div className="modal_target_price_box col-6">
+                                <input className="modal_target_price_input" type="number" placeholder="$"></input>
+                            </div>
+                            <div className="or col-12">
+                                OR
+                            </div>
+                            <div className="modal_percent_discount_title col-6">
+                               % Discount:
+                            </div>
+                            <div className="modal_percent_discount_box col-6">
+                                <input className="modal_percent_discount_input" type="number" placeholder="%"></input>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-warning">Add Item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

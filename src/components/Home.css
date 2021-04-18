@@ -21,6 +21,16 @@ img {
 .home_name > h4 {
     text-align: center;
 }
+.home_add_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 5px 0;
+}
+.add_item_button {
+    font-weight: bold;
+}
 .home_item {
     display: flex;
     align-items: center;
@@ -83,4 +93,46 @@ img {
 .visit_item_button, .remove_item_button {
     font-size: 10pt;
     padding: 2px 1px;
+}
+.modal-body {
+    width: 100%;
+    margin: 0;
+    font-size: 10pt;
+    display: flex;
+    align-items: center;
+}
+.modal_url_title, .modal_current_price_title {
+    text-align: right;
+    margin: 5px 0;
+    font-size: 10pt;
+    font-weight: bold;
+}
+.modal_current_price_input {
+    width: 50px;
+}
+.modal_url_input, .modal_current_price_input {
+    font-size: 10pt;
+}
+.modal_confirmed_price_title, .modal_confirmed_price {
+    padding: 0;
+    text-align: center;
+    font-size: 14pt;
+}
+.modal_confirmed_price {
+    margin-bottom: 10px;
+}
+.modal_target_price_title, .modal_percent_discount_title {
+    text-align: right;
+    padding: 5px;
+}
+.or {
+    text-align: center;
+    font-size: 14pt;
+}
+.modal_target_price_box, .modal_percent_discount_box {
+    padding-left: 0;
+}
+.modal_target_price_input, .modal_percent_discount_input {
+    width: 75px;
+    margin-left: 0;
 }
