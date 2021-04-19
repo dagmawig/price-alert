@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Home.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { addUrl } from './priceSlice';
 
 
 function Home() {
+    const urlSelector = useSelector((state) => state.price.itemUrl);
+    const dispatch = useDispatch();
+
+    const [url, getUrl] = useState('');
 
     function openAddItem() {
         window.$('#openAddItem').modal('show');
@@ -10,6 +16,14 @@ function Home() {
     function openList() {
         window.$('#openAddToList').modal('show');
     }
+    /// test function to be deleted
+    function addIt(e) {
+        e.preventDefault();
+        console.log(url);
+        dispatch(addUrl(url));
+        
+    }
+    /// test function to be deleted
     let total = Array.from(Array(10).keys());
     console.log(total)
     const item = total.map((val, i) => {
@@ -50,7 +64,7 @@ function Home() {
                     <div className="accordion-body">
                         <div className="item_detail row">
                             <div className="date_section col-3">
-                                <div classsName="date_added row">
+                                <div className="date_added row">
                                     <div className="date_added_title text-info col-12">
                                         Date Added
                                     </div>
@@ -86,7 +100,7 @@ function Home() {
                     ADD ITEM
                 </button>
                 <button className="col-4" onClick={openList}>
-                    test list
+                    {urlSelector[1]}
                 </button>
             </div>
             <div className="home_item row">
@@ -110,7 +124,7 @@ function Home() {
                                 URL:
                             </div>
                             <div className="modal_url_box col-8">
-                                <input className="modal_url_input" type="text" placeholder="add amazon item url"></input>
+                                <input className="modal_url_input" type="text" placeholder="add amazon item url" onChange={(e)=> getUrl(e.target.value)}></input>
                             </div>
                             <div className="modal_current_price_title col-4">
                                 Current Price:
@@ -121,7 +135,7 @@ function Home() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-warning">Confirm Price</button>
+                            <button type="button" className="btn btn-warning" onClick={addIt}>Confirm Price</button>
                         </div>
                     </div>
                 </div>
@@ -131,7 +145,7 @@ function Home() {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header bg-warning">
-                            <h5 className="modal-title fw-bold" style={{"font-size": "12pt"}}>ENTER TARGET PRICE <span style={{"font-size": "18pt"}}>OR</span> % DISCOUNT</h5>
+                            <h5 className="modal-title fw-bold" style={{"fontSize": "12pt"}}>ENTER TARGET PRICE <span style={{"fontSize": "18pt"}}>OR</span> % DISCOUNT</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body add_item_modal_body row">
