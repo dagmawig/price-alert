@@ -12,6 +12,8 @@ function Home() {
     const [url, getUrl] = useState('');
     const [currentPrice, getCurrentPrice] = useState('');
     const [confirmedPrice, setConfirmedPrice] = useState('');
+    const [targetP, getTargetP] = useState(['', '']);
+    const [percentDis, getPercentDis] = useState('');
 
     function openAddItem() {
         window.$('#openAddItem').modal('show');
@@ -46,6 +48,10 @@ function Home() {
                     }
                 });
         }
+
+    }
+
+    function addToList (e) {
 
     }
     /// test function to be deleted
@@ -191,7 +197,7 @@ function Home() {
                                 Target Price:
                             </div>
                             <div className="modal_target_price_box col-6">
-                                <input className="modal_target_price_input" type="number" placeholder="$"></input>
+                                <input className="modal_target_price_input" type="number" placeholder="$" value={targetP[0]} onChange={(e)=>getTargetP([e.target.value, (currentPrice-e.target.value)*100/currentPrice])}></input>
                             </div>
                             <div className="or col-12">
                                 OR
@@ -200,7 +206,7 @@ function Home() {
                                 % Discount:
                             </div>
                             <div className="modal_percent_discount_box col-6">
-                                <input className="modal_percent_discount_input" type="number" placeholder="%"></input>
+                                <input className="modal_percent_discount_input" type="number" placeholder="%" value={(!targetP[1])? null : Math.round(targetP[1])} onChange={(e) => getTargetP([((100-e.target.value)*currentPrice/100).toFixed(2), e.target.value]) }></input>
                             </div>
                         </div>
                         <div className="modal-footer">
