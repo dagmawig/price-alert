@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { addUrl, addPendingUrl } from './priceSlice';
+import { addUrl, addPendingUrl, updateUserData } from './priceSlice';
 import axios from 'axios';
 
 
@@ -79,6 +79,7 @@ function Home() {
             .then(res => {
                let data = res.data.data; 
                console.log(data);
+               dispatch(updateUserData(data));
             })
     }, []);
 
