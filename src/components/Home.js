@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Home.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUrl, addPendingUrl } from './priceSlice';
@@ -26,7 +26,7 @@ function Home() {
         if (!url.split(' ').join('') || url.split(' ').join('').substring(0, 5).toLowerCase() !== 'https') alert("Enter a valid url including 'https'.");
         else if (!currentPrice.split(' ').join('') || currentPrice <= 0) alert("Current price of item should be more than 0");
         else {
-            dispatch(addPendingUrl(url));
+            //dispatch(addPendingUrl(url));
 
             async function confirmUrl() {
                 let res = await axios.post('http://localhost:3001/confirmUrl', { url: url, price: currentPrice });
@@ -55,17 +55,35 @@ function Home() {
         e.preventDefault();
 
 
-    }
-    /// test function to be deleted
-    // function addIt(e) {
-    //     e.preventDefault();
-    //     console.log(url);
-    //     dispatch(addUrl(url));
+        async function addUrl() {
+            let res = await axios.post('http://localhost:3001/addUrl', { userID: "dag001", url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) });
 
-    // }
-    /// test function to be deleted
+            return res;
+        };
+
+        addUrl()
+            .then(res => {
+                let data = res.data;
+                console.log(data);
+            })
+    }
+
+    useEffect(() => {
+        async function loadUserData() {
+            let res = await axios.post('http://localhost:3001/loadData', { userID: "dag001" });
+
+            return res;
+        }
+
+        loadUserData()
+            .then(res => {
+               let data = res.data.data; 
+               console.log(data);
+            })
+    }, []);
+
     let total = Array.from(Array(10).keys());
-    console.log(total)
+
     const item = total.map((val, i) => {
         return (
             <div className="accordion-item" key={i}>
@@ -152,7 +170,7 @@ function Home() {
                 gdfgsdfgsdf
             </nav>
 
-            <div className="modal" id="openAddItem" tabindex="-1">
+            <div className="modal" id="openAddItem" tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header bg-warning">
@@ -181,7 +199,7 @@ function Home() {
                 </div>
             </div>
 
-            <div className="modal" id="openAddToList" tabindex="-1">
+            <div className="modal" id="openAddToList" tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header bg-warning">
@@ -199,7 +217,7 @@ function Home() {
                                 Item Name:
                             </div>
                             <div className="modal_item_name_box col-6">
-                                <input className="modal_item_name_input" type="text" placeholder="unique item name" onChange={(e)=>getItemName(e.target.value)}></input>
+                                <input className="modal_item_name_input" type="text" placeholder="unique item name" onChange={(e) => getItemName(e.target.value)}></input>
                             </div>
                             <div className="modal_target_price_title col-6">
                                 Target Price:
@@ -214,7 +232,7 @@ function Home() {
                                 % Discount:
                             </div>
                             <div className="modal_percent_discount_box col-6">
-                                <input className="modal_percent_discount_input" type="number" placeholder="%" value={(!targetP[1]) ? null : Math.round(targetP[1])} onChange={(e) => getTargetP([((100 - e.target.value) * currentPrice / 100).toFixed(2), e.target.value])}></input>
+                                <input className="modal_percent_discount_input" type="number" placeholder="%" value={(!targetP[1]) ? "" : Math.round(targetP[1])} onChange={(e) => getTargetP([((100 - e.target.value) * currentPrice / 100).toFixed(2), e.target.value])}></input>
                             </div>
                         </div>
                         <div className="modal-footer">
