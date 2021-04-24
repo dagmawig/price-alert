@@ -121,15 +121,18 @@ img {
 .modal_confirmed_price {
     margin-bottom: 10px;
 }
-.modal_target_price_title, .modal_percent_discount_title {
+.modal_item_name_title, .modal_target_price_title, .modal_percent_discount_title {
     text-align: right;
     padding: 5px;
+}
+.modal_item_name_title, .modal_item_name_box {
+    margin-bottom: 35px;
 }
 .or {
     text-align: center;
     font-size: 14pt;
 }
-.modal_target_price_box, .modal_percent_discount_box {
+.modal_target_price_box, .modal_percent_discount_box, .modal_item_name_box {
     padding-left: 0;
 }
 .modal_target_price_input, .modal_percent_discount_input {
