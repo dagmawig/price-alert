@@ -29,7 +29,8 @@ function Home() {
             //dispatch(addPendingUrl(url));
 
             async function confirmUrl() {
-                let res = await axios.post('http://localhost:3001/confirmUrl', { url: url, price: currentPrice });
+                let res = await axios.post('http://localhost:3001/confirmUrl', { url: url, price: currentPrice })
+                    .catch(err => console.log(err));
 
                 return res;
             }
@@ -56,7 +57,8 @@ function Home() {
 
 
         async function addUrl() {
-            let res = await axios.post('http://localhost:3001/addUrl', { userID: "dag001", url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) });
+            let res = await axios.post('http://localhost:3001/addUrl', { userID: "dag001", url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) })
+                .catch(err => console.log(err));
 
             return res;
         };
@@ -65,6 +67,7 @@ function Home() {
             .then(res => {
                 let data = res.data;
                 console.log(data);
+                if (data.success) dispatch(updateUserData(data.data));
             })
     }
 
@@ -77,9 +80,9 @@ function Home() {
 
         loadUserData()
             .then(res => {
-               let data = res.data.data; 
-               console.log(data);
-               dispatch(updateUserData(data));
+                let data = res.data.data;
+                console.log(data);
+                dispatch(updateUserData(data));
             })
     }, []);
 
