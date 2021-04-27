@@ -56,20 +56,24 @@ function Home() {
     function addToList(e) {
         e.preventDefault();
 
+        let itemNameArr = stateSelector.userData.itemNameArr;
 
-        async function addUrl() {
-            let res = await axios.post('http://localhost:3001/addUrl', { userID: "dag001", url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) })
-                .catch(err => console.log(err));
+        if (itemNameArr.indexOf(itemName) !== -1) alert(`Entered item name already exists. Use a different item name.`);
+        else {
+            async function addUrl() {
+                let res = await axios.post('http://localhost:3001/addUrl', { userID: "dag001", url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) })
+                    .catch(err => console.log(err));
 
-            return res;
-        };
+                return res;
+            };
 
-        addUrl()
-            .then(res => {
-                let data = res.data;
-                console.log(data);
-                if (data.success) dispatch(updateUserData(data.data));
-            })
+            addUrl()
+                .then(res => {
+                    let data = res.data;
+                    console.log(data);
+                    if (data.success) dispatch(updateUserData(data.data));
+                })
+        }
     }
 
     function openDeleteModal(e) {
@@ -98,7 +102,7 @@ function Home() {
                 if (data.success) {
                     dispatch(updateUserData(data.data));
                     window.$('#openDeleteModal').modal('hide');
-                } 
+                }
                 else console.log(data.err);
             })
     }
@@ -358,7 +362,7 @@ function Home() {
                         </div>
                         <div className="modal-body row">
                             <div className="modal_delete_body col-12">
-                                Are you sure you want to delete <span style={{fontWeight: 'bold'}}>{pendingDeleteItem[1]}</span>?
+                                Are you sure you want to delete <span style={{ fontWeight: 'bold' }}>{pendingDeleteItem[1]}</span>?
                             </div>
                         </div>
                         <div className="modal-footer">
