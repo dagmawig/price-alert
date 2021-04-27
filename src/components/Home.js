@@ -14,6 +14,7 @@ function Home() {
     const [confirmedPrice, setConfirmedPrice] = useState('');
     const [targetP, getTargetP] = useState(['', '']);
     const [itemName, getItemName] = useState('');
+    const [pendingDeleteItem, setDeleteItem] = useState(['', '']);
 
     function openAddItem() {
         window.$('#openAddItem').modal('show');
@@ -71,6 +72,36 @@ function Home() {
             })
     }
 
+    function openDeleteModal(e) {
+        e.preventDefault();
+
+        let itemNameArr = stateSelector.userData.itemNameArr;
+        let itemIndex = parseInt(e.target.id);
+        setDeleteItem([itemIndex, itemNameArr[itemIndex]]);
+
+        window.$('#openDeleteModal').modal('show');
+    }
+
+    function handleDelete(e) {
+        e.preventDefault();
+
+        async function deleteItem() {
+            let res = await axios.post('http://localhost:3001/deleteItem', { userID: "dag001", itemIndex: pendingDeleteItem[0] })
+                .catch(err => console.log(err));
+
+            return res;
+        }
+
+        deleteItem()
+            .then(res => {
+                let data = res.data;
+                if (data.success) {
+                    dispatch(updateUserData(data.data));
+                    window.$('#openDeleteModal').modal('hide');
+                } 
+                else console.log(data.err);
+            })
+    }
     useEffect(() => {
         async function loadUserData() {
             let res = await axios.post('http://localhost:3001/loadData', { userID: "dag001" });
@@ -88,6 +119,74 @@ function Home() {
 
     let total = Array.from(Array(10).keys());
 
+    let userData = stateSelector.userData;
+
+
+    const itemU = userData.itemNameArr.map((itemName, i) => {
+
+        let date = new Date(userData.timeStampArr[i]);
+
+        // changing UTC timezone to western hemsphere
+        date = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toDateString();
+
+        return (
+            <div className="accordion-item" key={i}>
+                <h2 className="accordion-header" id={`header${i}`}>
+                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${i}`} aria-expanded="false" aria-controls={`collapse${i}`}>
+                        <div className="item_header row">
+                            <div className="item_name col-4">
+                                {itemName}
+                            </div>
+                            <div className="price_section col-8">
+                                <div className="price row">
+                                    <div className="original_price_title col-6">
+                                        Original Price:
+                                    </div>
+                                    <div className="original_price_number col-6">
+                                        ${userData.originalPArr[i]}
+                                    </div>
+                                    <div className="target_price_title col-6">
+                                        Target Price:
+                                    </div>
+                                    <div className="target_price_number col-6">
+                                        ${userData.targetPArr[i]}
+                                    </div>
+                                    <div className="current_price_title col-6">
+                                        Current Price:
+                                    </div>
+                                    <div className="current_price_number col-6">
+                                        ${userData.currentPArr[i]}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id={`collapse${i}`} className="accordion-collapse collapse" aria-aria-labelledby={`heading${i}`} data-bs-parent="#accordion-parent-real">
+                    <div className="accordion-body">
+                        <div className="item_detail row">
+                            <div className="date_section col-3">
+                                <div className="date_added row">
+                                    <div className="date_added_title text-info col-12">
+                                        Date Added
+                                </div>
+                                    <div className="date_added_date text-info col-12">
+                                        {date}
+                                    </div>
+                                </div>
+                            </div>
+                            <button className="visit_item_button btn btn-outline-success col-4" type="button">
+                                <a href={userData.urlArr[i]} target="_blank">Visit Item &nbsp;&nbsp;&nbsp;&nbsp;  <i className="fa fa-arrow-circle-right fa" ></  i></a>
+                            </button>
+                            <button className="remove_item_button btn btn-outline-danger col-2" type="button" id={`${i}delete`} onClick={openDeleteModal}>
+                                Delete <i className="fa fa-trash-o fa" ></  i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    })
     const item = total.map((val, i) => {
         return (
             <div className="accordion-item" key={i}>
@@ -166,6 +265,9 @@ function Home() {
                 </button>
             </div>
             <div className="home_item row">
+                <div className="accordion col-12" id="accordion-parent-real">
+                    {itemU}
+                </div>
                 <div className="accordion col-12" id="accordion-parent">
                     {item}
                 </div>
@@ -242,6 +344,26 @@ function Home() {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <button type="button" className="btn btn-warning" onClick={addToList}>Add Item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal" id="openDeleteModal" tabIndex="-1">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header bg-danger">
+                            <h5 className="modal-title fw-bold">DELETE {pendingDeleteItem[1]}</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body row">
+                            <div className="modal_delete_body col-12">
+                                Are you sure you want to delete <span style={{fontWeight: 'bold'}}>{pendingDeleteItem[1]}</span>?
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-danger" onClick={handleDelete}>Delete Item</button>
                         </div>
                     </div>
                 </div>

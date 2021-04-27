@@ -61,6 +61,7 @@ img {
 }
 .item_name {
     padding: 2px 0;
+    font-weight: 500;
 }
 .price {
     display: flex;
@@ -73,6 +74,9 @@ img {
 .original_price_title, .target_price_title, .current_price_title, .original_price_number, .target_price_number, .current_price_number {
     margin: 0;
     text-align: right;
+}
+.original_price_title, .target_price_title, .current_price_title {
+    font-weight: 500;
 }
 .accordion-body {
     background-color: lightyellow;
@@ -138,4 +142,7 @@ img {
 .modal_target_price_input, .modal_percent_discount_input {
     width: 75px;
     margin-left: 0;
+}
+a {
+    text-decoration: none;
 }

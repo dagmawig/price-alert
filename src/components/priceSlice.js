@@ -5,7 +5,15 @@ export const priceSlice = createSlice({
     initialState: {
         itemUrl: ['empty'],
         pendingUrl: '',
-        userData: '',
+        userData: {
+            itemNameArr: [],
+            originalPArr: [],
+            targetPArr: [],
+            currentPArr: [],
+            timeStampArr: [],
+            urlArr: [],
+            
+        },
     },
     reducers: {
         addUrl: (state, action) => {
