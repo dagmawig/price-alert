@@ -3,6 +3,7 @@ import './Home.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUrl, addPendingUrl, updateUserData } from './priceSlice';
 import axios from 'axios';
+import profile from '../images/profile-picture.png';
 
 
 function Home() {
@@ -15,12 +16,22 @@ function Home() {
     const [targetP, getTargetP] = useState(['', '']);
     const [itemName, getItemName] = useState('');
     const [pendingDeleteItem, setDeleteItem] = useState(['', '']);
+    const [name, getName] = useState('');
+    const [pImg, setImg] = useState('');
 
     function openAddItem() {
         window.$('#openAddItem').modal('show');
     }
-    function openList() {
-        window.$('#openAddToList').modal('show');
+    function openProfile() {
+        axios.get("https://dog.ceo/api/breeds/image/random")
+        .then(resp => {
+            setImg(resp.data.message);
+            window.$('#openProfile').modal('show');
+        }).catch(err => console.log(err))
+       
+    }
+    function setProfile() {
+
     }
     function confirmPrice(e) {
         e.preventDefault();
@@ -61,7 +72,7 @@ function Home() {
         if (itemNameArr.indexOf(itemName) !== -1) alert(`Entered item name already exists. Use a different item name.`);
         else {
             async function addUrl() {
-                let res = await axios.post('http://localhost:3001/addUrl', { userID: "dag001", url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) })
+                let res = await axios.post('http://localhost:3001/addUrl', { userID: localStorage.getItem("userID"), url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) })
                     .catch(err => console.log(err));
 
                 return res;
@@ -90,7 +101,7 @@ function Home() {
         e.preventDefault();
 
         async function deleteItem() {
-            let res = await axios.post('http://localhost:3001/deleteItem', { userID: "dag001", itemIndex: pendingDeleteItem[0] })
+            let res = await axios.post('http://localhost:3001/deleteItem', { userID: localStorage.getItem("userID"), itemIndex: pendingDeleteItem[0] })
                 .catch(err => console.log(err));
 
             return res;
@@ -108,7 +119,7 @@ function Home() {
     }
     useEffect(() => {
         async function loadUserData() {
-            let res = await axios.post('http://localhost:3001/loadData', { userID: "dag001" });
+            let res = await axios.post('http://localhost:3001/loadData', { userID: localStorage.getItem("userID") });
 
             return res;
         }
@@ -125,7 +136,12 @@ function Home() {
 
     let userData = stateSelector.userData;
 
-
+    const randomImg = () => {
+        axios.get("https://dog.ceo/api/breeds/image/random")
+        .then(resp => {
+            setImg(resp.data.message); 
+        });
+    }
     const itemU = userData.itemNameArr.map((itemName, i) => {
 
         let date = new Date(userData.timeStampArr[i]);
@@ -254,18 +270,18 @@ function Home() {
         <div className="home container">
             <div className="home_profile row">
                 <div className="home_card card col-12">
-                    <img className="home_pic" alt="profile picture" src="https://images.dog.ceo/breeds/terrier-tibetan/n02097474_6607.jpg"></img>
-                    <div className="home_name card-body">
-                        <h4 className="card-text">DAG</h4>
-                    </div>
+                        <img className="home_pic" alt="profile picture" src={profile}></img>
+                        <button className="set_profile_button btn btn-outline-info" onClick={openProfile}>
+                        <div className="home_name card-body">
+                            <h4 className="card-text">SET PROFILE</h4>
+                        </div>
+                    </button>
+
                 </div>
             </div>
             <div className="home_add_item row">
                 <button className="add_item_button btn btn-outline-success col-6" type="button" onClick={openAddItem}>
                     ADD ITEM
-                </button>
-                <button className="col-4" onClick={openList}>
-                    {stateSelector.itemUrl[1]}
                 </button>
             </div>
             <div className="home_item row">
@@ -368,6 +384,38 @@ function Home() {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <button type="button" className="btn btn-danger" onClick={handleDelete}>Delete Item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal" id="openProfile" tabIndex="-1">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header bg-info">
+                            <h5 className="modal-title fw-bold">SET PROFILE</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body modal_profile_body row">
+                            <div className="modal_name_title col-6">
+                            Name:
+                            </div>
+                            <div className="modal_name_box col-6">
+                                <input className="modal_name_input" type="text" placeholder="enter your name" onChange={(e)=>getName(e.target.value)}></input>
+                            </div>
+                            <div className="modal_profile_text col-12">
+                                We picked a profile pic for you?
+                            </div>
+                            <div className="modal_profile_pic col-12">
+                            <img className="pending_pic" alt="pending pic" src={pImg}></img>
+                            </div>
+                            <div className="modal_diff_pic col-12">
+                                <button className="diff_pic_button btn btn-info" type="button" onClick={randomImg}>Pick a different Picture</button>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-info" onClick={setProfile}>Set Profile</button>
                         </div>
                     </div>
                 </div>

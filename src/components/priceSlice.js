@@ -6,16 +6,20 @@ export const priceSlice = createSlice({
         itemUrl: ['empty'],
         pendingUrl: '',
         userData: {
+            userID: '',
             itemNameArr: [],
             originalPArr: [],
             targetPArr: [],
             currentPArr: [],
             timeStampArr: [],
             urlArr: [],
-            
+
         },
     },
     reducers: {
+        setUserID: (state, action) => {
+            state.userData.userID = action.payload;
+        },
         addUrl: (state, action) => {
             state.itemUrl.push(action.payload);
         },
@@ -30,6 +34,6 @@ export const priceSlice = createSlice({
 
 
 // action creators generated for each case reducer function.
-export const { addUrl, addPendingUrl, updateUserData } = priceSlice.actions;
+export const { setUserID, addUrl, addPendingUrl, updateUserData } = priceSlice.actions;
 
 export default priceSlice.reducer;
