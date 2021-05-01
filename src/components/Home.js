@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { addUrl, addPendingUrl, updateUserData } from './priceSlice';
+import { updateUserData, setLoading } from './priceSlice';
 import axios from 'axios';
 import profile from '../images/profile-picture.png';
 
@@ -9,6 +9,7 @@ import profile from '../images/profile-picture.png';
 function Home() {
     const stateSelector = useSelector((state) => state.price);
     const dispatch = useDispatch();
+    let loading = stateSelector.loading;
 
     const [url, getUrl] = useState('');
     const [currentPrice, getCurrentPrice] = useState('');
@@ -24,15 +25,35 @@ function Home() {
     }
     function openProfile() {
         axios.get("https://dog.ceo/api/breeds/image/random")
-        .then(resp => {
-            setImg(resp.data.message);
-            window.$('#openProfile').modal('show');
-        }).catch(err => console.log(err))
-       
-    }
-    function setProfile() {
+            .then(resp => {
+                setImg(resp.data.message);
+                window.$('#openProfile').modal('show');
+            }).catch(err => console.log(err))
 
     }
+    function setProfile() {
+        if (!name.split(' ').join('')) alert('enter your name');
+        else {
+            async function setProfile() {
+                let res = await axios.post("http://localhost:3001/setProfile", { userID: localStorage.getItem("userID"), name: name, pImg: pImg })
+                    .catch(err => console.log(err));
+
+                return res;
+            }
+
+            setProfile()
+                .then(res => {
+                    let data = res.data;
+                    if (data.success) {
+                        dispatch(updateUserData(data.data));
+                        window.$('#openProfile').modal('hide');
+
+                    }
+                    else alert(`${data.err}`)
+                });
+        }
+    }
+
     function confirmPrice(e) {
         e.preventDefault();
         if (!url.split(' ').join('') || url.split(' ').join('').substring(0, 5).toLowerCase() !== 'https') alert("Enter a valid url including 'https'.");
@@ -124,11 +145,14 @@ function Home() {
             return res;
         }
 
+        dispatch(setLoading(true));
+
         loadUserData()
             .then(res => {
                 let data = res.data.data;
                 console.log(data);
                 dispatch(updateUserData(data));
+                dispatch(setLoading(false));
             })
     }, []);
 
@@ -138,9 +162,9 @@ function Home() {
 
     const randomImg = () => {
         axios.get("https://dog.ceo/api/breeds/image/random")
-        .then(resp => {
-            setImg(resp.data.message); 
-        });
+            .then(resp => {
+                setImg(resp.data.message);
+            });
     }
     const itemU = userData.itemNameArr.map((itemName, i) => {
 
@@ -270,13 +294,34 @@ function Home() {
         <div className="home container">
             <div className="home_profile row">
                 <div className="home_card card col-12">
-                        <img className="home_pic" alt="profile picture" src={profile}></img>
-                        <button className="set_profile_button btn btn-outline-info" onClick={openProfile}>
-                        <div className="home_name card-body">
-                            <h4 className="card-text">SET PROFILE</h4>
-                        </div>
-                    </button>
-
+                    {
+                        (!loading && !stateSelector.userData.pic) ?
+                            (<>
+                                <img className="home_pic" alt="profile picture" src={profile}></img>
+                                <button className="set_profile_button btn btn-outline-info" onClick={openProfile}>
+                                    <div className="home_name card-body">
+                                        <h4 className="card-text">SET PROFILE</h4>
+                                    </div>
+                                </button>
+                            </>
+                            ) : ((!loading && stateSelector.userData.pic) ?
+                                (
+                                    <>
+                                        <img className="home_pic" alt="profile picture" src={stateSelector.userData.pic}></img>
+                                        <div className="home_name card-body">
+                                            <h4 className="card-text">{stateSelector.userData.name}</h4>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <img className="home_pic" alt="profile picture" src={profile}></img>
+                                        <div className="home_name card-body">
+                                            <h6 className="card-text">Loading...</h6>
+                                        </div>
+                                    </>
+                                )
+                            )
+                    }
                 </div>
             </div>
             <div className="home_add_item row">
@@ -318,8 +363,8 @@ function Home() {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-warning" onClick={confirmPrice}>Confirm Price</button>
+                            <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-outline-warning" onClick={confirmPrice}>Confirm Price</button>
                         </div>
                     </div>
                 </div>
@@ -362,8 +407,8 @@ function Home() {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-warning" onClick={addToList}>Add Item</button>
+                            <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-outline-warning" onClick={addToList}>Add Item</button>
                         </div>
                     </div>
                 </div>
@@ -382,8 +427,8 @@ function Home() {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-danger" onClick={handleDelete}>Delete Item</button>
+                            <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-outline-danger" onClick={handleDelete}>Delete Item</button>
                         </div>
                     </div>
                 </div>
@@ -397,25 +442,26 @@ function Home() {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body modal_profile_body row">
-                            <div className="modal_name_title col-6">
-                            Name:
+                            <div className="modal_name_section col-12">
+                                Name: &nbsp;
+                            <input className="modal_name_input" type="text" placeholder="enter your name" onChange={(e) => getName(e.target.value)}></input>
                             </div>
-                            <div className="modal_name_box col-6">
-                                <input className="modal_name_input" type="text" placeholder="enter your name" onChange={(e)=>getName(e.target.value)}></input>
-                            </div>
+
+
+
                             <div className="modal_profile_text col-12">
                                 We picked a profile pic for you?
                             </div>
                             <div className="modal_profile_pic col-12">
-                            <img className="pending_pic" alt="pending pic" src={pImg}></img>
+                                <img className="pending_pic" alt="pending pic" src={pImg}></img>
                             </div>
                             <div className="modal_diff_pic col-12">
-                                <button className="diff_pic_button btn btn-info" type="button" onClick={randomImg}>Pick a different Picture</button>
+                                <button className="diff_pic_button btn btn-outline-info" type="button" onClick={randomImg}>Pick a different Picture</button>
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" className="btn btn-info" onClick={setProfile}>Set Profile</button>
+                            <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-outline-info" onClick={setProfile}>Set Profile</button>
                         </div>
                     </div>
                 </div>
