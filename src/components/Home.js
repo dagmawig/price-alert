@@ -91,6 +91,8 @@ function Home() {
         let itemNameArr = stateSelector.userData.itemNameArr;
 
         if (itemNameArr.indexOf(itemName) !== -1) alert(`Entered item name already exists. Use a different item name.`);
+        else if (!targetP[0].split(' ').join('') || targetP[0] == 0) alert('enter target price more than zero.')
+        else if (parseFloat(parseFloat(targetP[0]).toFixed(2)) > parseFloat(parseFloat(currentPrice).toFixed(2))) alert('please enter target price that is less than current price')
         else {
             async function addUrl() {
                 let res = await axios.post('http://localhost:3001/addUrl', { userID: localStorage.getItem("userID"), url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) })
@@ -103,7 +105,10 @@ function Home() {
                 .then(res => {
                     let data = res.data;
                     console.log(data);
-                    if (data.success) dispatch(updateUserData(data.data));
+                    if (data.success) {
+                        dispatch(updateUserData(data.data));
+                        window.$('#openAddToList').modal('hide');
+                    }
                 })
         }
     }
@@ -298,11 +303,12 @@ function Home() {
                         (!loading && !stateSelector.userData.pic) ?
                             (<>
                                 <img className="home_pic" alt="profile picture" src={profile}></img>
-                                <button className="set_profile_button btn btn-outline-info" onClick={openProfile}>
-                                    <div className="home_name card-body">
-                                        <h4 className="card-text">SET PROFILE</h4>
-                                    </div>
-                                </button>
+                                <div className="home_name card-body">
+                                    <button className="set_profile_button btn btn-outline-info" onClick={openProfile}>
+
+                                        <h6 className="card-text">SET PROFILE</h6>
+                                    </button>
+                                </div>
                             </>
                             ) : ((!loading && stateSelector.userData.pic) ?
                                 (
@@ -343,24 +349,25 @@ function Home() {
 
             <div className="modal" id="openAddItem" tabIndex="-1">
                 <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header bg-warning">
+                    <div className="modal-content border-warning">
+                        <div className="modal-header border-bottom border-warning bg-warning">
                             <h5 className="modal-title fw-bold">CONFIRM ITEM URL</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body add_item_modal_body row">
-                            <div className="modal_url_title col-4">
-                                URL:
-                            </div>
-                            <div className="modal_url_box col-8">
-                                <input className="modal_url_input" type="text" placeholder="add amazon item url" onChange={(e) => getUrl(e.target.value)}></input>
-                            </div>
-                            <div className="modal_current_price_title col-4">
-                                Current Price:
-                            </div>
-                            <div className="moda_current_price_box col-3">
-                                <input className="modal_current_price_input" type="number" placeholder="$" onChange={(e) => getCurrentPrice(e.target.value)}></input>
-                            </div>
+                            <form>
+                                <div className="form-group">
+                                    <label for="url"><b>URL</b></label>
+                                    <input type="text" class="form-control" placeholder="add amazon item url" onChange={(e) => getUrl(e.target.value)}></input>
+                                    <small className="form-text text -muted">use format https://www.amazon.com/...</small>
+                                </div>
+                                <br />
+                                <div className="form-group">
+                                    <label for="currentPrice"><b>Current Price</b></label>
+                                    <input type="number" class="form-control " placeholder="$" onChange={(e) => getCurrentPrice(e.target.value)}></input>
+                                    <small className="form-text text -muted">enter the price you see on amazon item page</small>
+                                </div>
+                            </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -372,39 +379,51 @@ function Home() {
 
             <div className="modal" id="openAddToList" tabIndex="-1">
                 <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header bg-warning">
+                    <div className="modal-content border-warning">
+                        <div className="modal-header border-bottom border-warning bg-warning">
                             <h5 className="modal-title fw-bold" style={{ "fontSize": "12pt" }}>ENTER TARGET PRICE <span style={{ "fontSize": "18pt" }}>OR</span> % DISCOUNT</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body add_item_modal_body row">
                             <div className="modal_confirmed_price_title col-12">
-                                CURRENT PRICE
+                                <b>CURRENT PRICE</b>
                             </div>
                             <div className="modal_confirmed_price col-12">
-                                {confirmedPrice}
+                                <b>{confirmedPrice}</b>
                             </div>
-                            <div className="modal_item_name_title col-6">
-                                Item Name:
-                            </div>
-                            <div className="modal_item_name_box col-6">
-                                <input className="modal_item_name_input" type="text" placeholder="unique item name" onChange={(e) => getItemName(e.target.value)}></input>
-                            </div>
-                            <div className="modal_target_price_title col-6">
-                                Target Price:
-                            </div>
-                            <div className="modal_target_price_box col-6">
-                                <input className="modal_target_price_input" type="number" placeholder="$" value={targetP[0]} onChange={(e) => getTargetP([e.target.value, (currentPrice - e.target.value) * 100 / currentPrice])}></input>
-                            </div>
-                            <div className="or col-12">
-                                OR
-                            </div>
-                            <div className="modal_percent_discount_title col-6">
-                                % Discount:
-                            </div>
-                            <div className="modal_percent_discount_box col-6">
-                                <input className="modal_percent_discount_input" type="number" placeholder="%" value={(!targetP[1]) ? "" : Math.round(targetP[1])} onChange={(e) => getTargetP([((100 - e.target.value) * currentPrice / 100).toFixed(2), e.target.value])}></input>
-                            </div>
+                            <form>
+                                <div className="form-group">
+                                    <label for="itemName"><b>Item Name</b></label>
+                                    <input type="text" class="form-control" placeholder="unique item name" onChange={(e) => getItemName(e.target.value)}></input>
+                                    <small className="form-text text -muted">give the item a name you can remember</small>
+                                </div>
+                                <br /><br />
+                                <div className="form-group">
+                                    <label for="targetPrice"><b>Target Price</b></label>
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text" id="basic-addon1">$</span>
+                                        </div>
+                                        <input type="number" class="form-control" value={targetP[0]} placeholder="XXXX.XX" onChange={(e) => getTargetP([e.target.value, (currentPrice - e.target.value) * 100 / currentPrice])}></input>
+                                    </div>
+
+                                    <small className="form-text text -muted">enter a target price point you want to get email alert for</small>
+                                </div>
+                                <div className="or col-12">
+                                    <b>OR</b>
+                                </div>
+                                <div className="form-group">
+                                    <label for="percentDiscount"><b>% Discount</b></label>
+                                    <div className="input-group">
+                                        <input type="number" class="form-control" placeholder="%" value={(!targetP[1]) ? "" : Math.round(targetP[1])} onChange={(e) => getTargetP([((100 - e.target.value) * currentPrice / 100).toFixed(2), e.target.value])}></input>
+                                        <div className="input-group-append">
+                                            <span className="input-group-text" id="basic-addon2">.00 %</span>
+                                        </div>
+                                    </div>
+
+                                    <small className="form-text text -muted">enter target discount percentage</small>
+                                </div>
+                            </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -416,8 +435,8 @@ function Home() {
 
             <div className="modal" id="openDeleteModal" tabIndex="-1">
                 <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header bg-danger">
+                    <div className="modal-content border-danger">
+                        <div className="modal-header border-bottom border-danger bg-danger">
                             <h5 className="modal-title fw-bold">DELETE {pendingDeleteItem[1]}</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -436,28 +455,28 @@ function Home() {
 
             <div className="modal" id="openProfile" tabIndex="-1">
                 <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header bg-info">
+                    <div className="modal-content border-info">
+                        <div className="modal-header border-bottom border-info bg-info">
                             <h5 className="modal-title fw-bold">SET PROFILE</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body modal_profile_body row">
-                            <div className="modal_name_section col-12">
-                                Name: &nbsp;
-                            <input className="modal_name_input" type="text" placeholder="enter your name" onChange={(e) => getName(e.target.value)}></input>
-                            </div>
-
-
-
-                            <div className="modal_profile_text col-12">
-                                We picked a profile pic for you?
-                            </div>
-                            <div className="modal_profile_pic col-12">
-                                <img className="pending_pic" alt="pending pic" src={pImg}></img>
-                            </div>
-                            <div className="modal_diff_pic col-12">
-                                <button className="diff_pic_button btn btn-outline-info" type="button" onClick={randomImg}>Pick a different Picture</button>
-                            </div>
+                            <form>
+                                <div className="form-group">
+                                    <label for="name"><b>Name</b></label>
+                                    <input type="text" class="form-control" placeholder="enter your name" onChange={(e) => getName(e.target.value)}></input>
+                                </div>
+                                <br />
+                                <div className="form-group">
+                                    <label for="profilePic" className="pic_label"><b>We picked a profile pic for you...</b></label>
+                                    <div className="modal_profile_pic col-12">
+                                        <img className="pending_pic" alt="pending pic" src={pImg}></img>
+                                    </div>
+                                    <div className="modal_diff_pic col-12">
+                                        <button className="diff_pic_button btn btn-outline-info" type="button" onClick={randomImg}>Pick a different Picture</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>

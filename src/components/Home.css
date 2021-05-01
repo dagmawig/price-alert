@@ -25,7 +25,7 @@ img {
     width: 50%;
     margin: 5px auto;
 }
-.home_name > h4 {
+.home_name, .home_name > h4 {
     text-align: center;
 }
 .home_add_item {
@@ -183,7 +183,24 @@ a {
 .modal_profile_text {
     text-align: center;
 }
-.btn {
+.btn, .btn-close {
     border: 3px solid;
     border-radius: 10px;
+}
+.modal-content {
+    border-radius: 10px;
+    border: 3px solid;
+}
+.modal-header {
+    border-bottom: 3px solid;
+}
+button {
+    font-weight: 500 !important;
+}
+.form-group {
+    width: 100%;
+}
+.pic_label {
+    width: 100%;
+    text-align: center;
 }
