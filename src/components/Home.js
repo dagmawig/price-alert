@@ -27,6 +27,7 @@ function Home() {
         axios.get("https://dog.ceo/api/breeds/image/random")
             .then(resp => {
                 setImg(resp.data.message);
+            }).then(() => {
                 window.$('#openProfile').modal('show');
             }).catch(err => console.log(err))
 
@@ -181,7 +182,7 @@ function Home() {
         return (
             <div className="accordion-item" key={i}>
                 <h2 className="accordion-header" id={`header${i}`}>
-                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${i}`} aria-expanded="false" aria-controls={`collapse${i}`}>
+                    <button className="accordion-button collapsed bg-warning" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${i}`} aria-expanded="false" aria-controls={`collapse${i}`}>
                         <div className="item_header row">
                             <div className="item_name col-4">
                                 {itemName}
@@ -240,7 +241,7 @@ function Home() {
         return (
             <div className="accordion-item" key={i}>
                 <h2 className="accordion-header" id={`heading${val}`}>
-                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${val}`} aria-expanded="false" aria-controls={`collapse${val}`}>
+                    <button className="accordion-button collapsed bg-warning" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${val}`} aria-expanded="false" aria-controls={`collapse${val}`}>
                         <div className="item_header row">
                             <div className="item_name col-4">
                                 Item Name
@@ -344,7 +345,6 @@ function Home() {
                 </div>
             </div>
             <nav className="home_footer navbar fixed-bottom bg-warning">
-                gdfgsdfgsdf
             </nav>
 
             <div className="modal" id="openAddItem" tabIndex="-1">
