@@ -4,6 +4,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import SignUp from './components/SignUp';
+import Loading from './components/Loading';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     homePage = (
       <>
         <Header />
+        <Loading />
         <Home />
       </>
     )
@@ -21,6 +23,7 @@ function App() {
   else {
     homePage = (
       <>
+        <Loading />
         <Login />
       </>
     )
@@ -32,6 +35,7 @@ function App() {
     signUp = (
       <>
         <Header />
+        <Loading />
         <Home />
       </>
     )
@@ -39,6 +43,7 @@ function App() {
   else {
     signUp = (
       <>
+        <Loading />
         <SignUp />
       </>
     )

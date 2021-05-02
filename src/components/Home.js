@@ -24,11 +24,13 @@ function Home() {
         window.$('#openAddItem').modal('show');
     }
     function openProfile() {
+        dispatch(setLoading(true));
         axios.get("https://dog.ceo/api/breeds/image/random")
             .then(resp => {
                 setImg(resp.data.message);
             }).then(() => {
                 window.$('#openProfile').modal('show');
+                dispatch(setLoading(false));
             }).catch(err => console.log(err))
 
     }
@@ -42,20 +44,26 @@ function Home() {
                 return res;
             }
 
+            dispatch(setLoading(true));
             setProfile()
                 .then(res => {
                     let data = res.data;
                     if (data.success) {
                         dispatch(updateUserData(data.data));
                         window.$('#openProfile').modal('hide');
+                        dispatch(setLoading(false));
 
                     }
-                    else alert(`${data.err}`)
+                    else {
+                        dispatch(setLoading(false));
+                        alert(`${data.err}`);
+                    }
                 });
         }
     }
 
     function confirmPrice(e) {
+
         e.preventDefault();
         if (!url.split(' ').join('') || url.split(' ').join('').substring(0, 5).toLowerCase() !== 'https') alert("Enter a valid url including 'https'.");
         else if (!currentPrice.split(' ').join('') || currentPrice <= 0) alert("Current price of item should be more than 0");
@@ -69,6 +77,7 @@ function Home() {
                 return res;
             }
 
+            dispatch(setLoading(true));
             confirmUrl()
                 .then(res => {
                     let data = res.data;
@@ -77,8 +86,10 @@ function Home() {
                         setConfirmedPrice(data.data)
                         window.$('#openAddItem').modal('hide');
                         window.$('#openAddToList').modal('show');
+                        dispatch(setLoading(false));
                     }
                     else {
+                        dispatch(setLoading(false));
                         alert(`${data.err} \n make sure the url is correct and contains 'https'.`);
                     }
                 });
@@ -102,6 +113,7 @@ function Home() {
                 return res;
             };
 
+            dispatch(setLoading(true));
             addUrl()
                 .then(res => {
                     let data = res.data;
@@ -109,6 +121,11 @@ function Home() {
                     if (data.success) {
                         dispatch(updateUserData(data.data));
                         window.$('#openAddToList').modal('hide');
+                        dispatch(setLoading(false));
+                    }
+                    else {
+                        dispatch(setLoading(false));
+                        alert(`${data.err}`);
                     }
                 })
         }
@@ -134,14 +151,19 @@ function Home() {
             return res;
         }
 
+        dispatch(setLoading(true));
         deleteItem()
             .then(res => {
                 let data = res.data;
                 if (data.success) {
                     dispatch(updateUserData(data.data));
                     window.$('#openDeleteModal').modal('hide');
+                    dispatch(setLoading(false));
                 }
-                else console.log(data.err);
+                else {
+                    dispatch(setLoading(false));
+                    alert(`${data.err}`);
+                }
             })
     }
     useEffect(() => {
@@ -170,7 +192,7 @@ function Home() {
         axios.get("https://dog.ceo/api/breeds/image/random")
             .then(resp => {
                 setImg(resp.data.message);
-            });
+            }).catch(err => alert(`${err}`));
     }
     const itemU = userData.itemNameArr.map((itemName, i) => {
 
