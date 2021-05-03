@@ -5,6 +5,7 @@ import Login from './components/Login';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import SignUp from './components/SignUp';
 import Loading from './components/Loading';
+import Reset from './components/PassReset';
 
 
 function App() {
@@ -55,6 +56,9 @@ function App() {
         <Switch>
           <Route path="/signup">
             {signUp}
+          </Route>
+          <Route path="/reset">
+            <Reset />
           </Route>
           <Route path="/">
             {homePage}

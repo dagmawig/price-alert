@@ -13,3 +13,6 @@
         margin: auto;
         padding: 20px;
     }
+i, .signUp_link {
+    color: black;
+}
