@@ -248,10 +248,10 @@ function Home() {
                                 </div>
                             </div>
                             <button className="visit_item_button btn btn-outline-success col-4" type="button">
-                                <a href={userData.urlArr[i]} target="_blank">Visit Item &nbsp;&nbsp;&nbsp;&nbsp;  <i className="fa fa-arrow-circle-right fa" ></  i></a>
+                                <a href={userData.urlArr[i]} target="_blank" className="text-success">Visit Item &nbsp;&nbsp;&nbsp;&nbsp;  <i className="fa fa-arrow-circle-right text-success" ></  i></a>
                             </button>
                             <button className="remove_item_button btn btn-outline-danger col-2" type="button" id={`${i}delete`} onClick={openDeleteModal}>
-                                Delete <i className="fa fa-trash-o fa" ></  i>
+                                Delete <i className="fa fa-trash-o text-danger" ></  i>
                             </button>
                         </div>
                     </div>
@@ -338,7 +338,7 @@ function Home() {
                                     <>
                                         <img className="home_pic" alt="profile picture" src={stateSelector.userData.pic}></img>
                                         <div className="home_name card-body">
-                                            <h4 className="card-text">{stateSelector.userData.name}</h4>
+                                            <h4 className="card-text user_name">{stateSelector.userData.name.toUpperCase()}</h4>
                                         </div>
                                     </>
                                 ) : (

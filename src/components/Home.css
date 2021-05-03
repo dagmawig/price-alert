@@ -27,6 +27,7 @@ img {
 }
 .home_name, .home_name > h4 {
     text-align: center;
+    font-family: Brush Script MT,cursive;
 }
 .home_add_item {
     display: flex;
@@ -104,6 +105,9 @@ img {
 .visit_item_button, .remove_item_button {
     font-size: 10pt;
     padding: 2px 1px;
+}
+.modal {
+    margin-top: 10%;
 }
 .modal-body {
     width: 100%;
