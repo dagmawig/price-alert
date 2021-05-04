@@ -21,6 +21,10 @@ function Home() {
     const [pImg, setImg] = useState('');
 
     function openAddItem() {
+        document.getElementById('url').value = '';
+        document.getElementById('currentP').value ='';
+        getUrl('');
+        getCurrentPrice('');
         window.$('#openAddItem').modal('show');
     }
     function openProfile() {
@@ -85,6 +89,11 @@ function Home() {
                     if (data.success) {
                         setConfirmedPrice(data.data)
                         window.$('#openAddItem').modal('hide');
+                        document.getElementById("name").value = '';
+                        document.getElementById("targetPrice").value = '';
+                        document.getElementById("targetPercent").value = '';
+                        getTargetP(['', '']);
+                        getItemName('');
                         window.$('#openAddToList').modal('show');
                         dispatch(setLoading(false));
                     }
@@ -166,6 +175,25 @@ function Home() {
                 }
             })
     }
+
+    function handleAddItem(e) {
+        if(e.key === 'Enter') {
+            confirmPrice(e);
+        }
+    }
+
+    function handleAddToList(e) {
+        if(e.key === 'Enter') {
+            addToList(e);
+        }
+    }
+
+    function handleProfile(e) {
+        if(e.key === 'Enter') {
+            setProfile(e);
+        }
+    }
+
     useEffect(() => {
         async function loadUserData() {
             let res = await axios.post('http://localhost:3001/loadData', { userID: localStorage.getItem("userID") });
@@ -380,13 +408,13 @@ function Home() {
                             <form>
                                 <div className="form-group">
                                     <label for="url"><b>URL</b></label>
-                                    <input type="text" className="form-control" placeholder="add amazon item url" onChange={(e) => getUrl(e.target.value)}></input>
+                                    <input type="text" className="form-control" id="url" placeholder="add amazon item url" onChange={(e) => getUrl(e.target.value)} onKeyPress={handleAddItem}></input>
                                     <small className="form-text text -muted">use format https://www.amazon.com/...</small>
                                 </div>
                                 <br />
                                 <div className="form-group">
                                     <label for="currentPrice"><b>Current Price</b></label>
-                                    <input type="number" className="form-control " placeholder="$" onChange={(e) => getCurrentPrice(e.target.value)}></input>
+                                    <input type="number" className="form-control " id="currentP" placeholder="$" onChange={(e) => getCurrentPrice(e.target.value)} onKeyPress={handleAddItem}></input>
                                     <small className="form-text text -muted">enter the price you see on amazon item page</small>
                                 </div>
                             </form>
@@ -416,7 +444,7 @@ function Home() {
                             <form>
                                 <div className="form-group">
                                     <label for="itemName"><b>Item Name</b></label>
-                                    <input type="text" class="form-control" placeholder="unique item name" onChange={(e) => getItemName(e.target.value)}></input>
+                                    <input type="text" class="form-control" id="itemName" placeholder="unique item name" onChange={(e) => getItemName(e.target.value)} onKeyPress={handleAddToList}></input>
                                     <small className="form-text text -muted">give the item a name you can remember</small>
                                 </div>
                                 <br /><br />
@@ -426,7 +454,7 @@ function Home() {
                                         <div className="input-group-prepend">
                                             <span className="input-group-text" id="basic-addon1">$</span>
                                         </div>
-                                        <input type="number" class="form-control" value={targetP[0]} placeholder="XXXX.XX" onChange={(e) => getTargetP([e.target.value, (currentPrice - e.target.value) * 100 / currentPrice])}></input>
+                                        <input type="number" class="form-control" id="targetPrice" value={targetP[0]} placeholder="XXXX.XX" onChange={(e) => getTargetP([e.target.value, (currentPrice - e.target.value) * 100 / currentPrice])} onKeyPress={handleAddToList}></input>
                                     </div>
 
                                     <small className="form-text text -muted">enter a target price point you want to get email alert for</small>
@@ -437,7 +465,7 @@ function Home() {
                                 <div className="form-group">
                                     <label for="percentDiscount"><b>% Discount</b></label>
                                     <div className="input-group">
-                                        <input type="number" class="form-control" placeholder="%" value={(!targetP[1]) ? "" : Math.round(targetP[1])} onChange={(e) => getTargetP([((100 - e.target.value) * currentPrice / 100).toFixed(2), e.target.value])}></input>
+                                        <input type="number" class="form-control" id="targetPercent" placeholder="%" value={(!targetP[1]) ? "" : Math.round(targetP[1])} onChange={(e) => getTargetP([((100 - e.target.value) * currentPrice / 100).toFixed(2), e.target.value])} onKeyPress={handleAddToList}></input>
                                         <div className="input-group-append">
                                             <span className="input-group-text" id="basic-addon2">.00 %</span>
                                         </div>
@@ -486,7 +514,7 @@ function Home() {
                             <form>
                                 <div className="form-group">
                                     <label for="name"><b>Name</b></label>
-                                    <input type="text" class="form-control" placeholder="enter your name" onChange={(e) => getName(e.target.value)}></input>
+                                    <input type="text" class="form-control" placeholder="enter your name" onChange={(e) => getName(e.target.value)} onKeyPress={handleProfile}></input>
                                 </div>
                                 <br />
                                 <div className="form-group">
