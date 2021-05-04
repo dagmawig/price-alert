@@ -9,10 +9,11 @@
     justify-content: center;
     }
 .sign_up_form {
-        width: 100%;
-        margin: auto;
         padding: 20px;
     }
-i, .fa-user-plus {
+.signUp_link, .fa-user-plus {
     color: black;
+}
+.form-control {
+    width: 300px;
 }

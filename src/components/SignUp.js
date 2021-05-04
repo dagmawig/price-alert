@@ -14,7 +14,7 @@ function SignUp() {
     const signUp = (e) => {
         e.preventDefault();
 
-        if(valid) return;
+        if (valid) return;
 
         auth.createUserWithEmailAndPassword(email, password)
             .then(() => {
@@ -37,14 +37,21 @@ function SignUp() {
 
     return (
         <div className="sign_up row">
-            <div className="sign_up_form col-sm-6">
+            <div className="sign_up_form col-sm-5">
                 <form>
-                    <h3>Sign Up For Amazon Price Alert</h3>
+                    <h4>Sign Up For Amazon Price Alert</h4>
                     <br />
-                    Email<br />
-                    <input type="email" size="22" onChange={(e) => getEmail(e.target.value)} /><br /><br />
-                    Password<br />
-                    <input type="password" size="22" onChange={(e) => getPassword(e.target.value)} /><br /><br />
+
+                    <div className="form-group">
+                        <label for="email"><b>Email</b></label>
+                        <input type="email" className="form-control" placeholder="email" size="22" onChange={(e) => getEmail(e.target.value)}></input>
+                    </div>
+                    <br />
+                    <div className="form-group">
+                        <label for="password"><b>Password</b></label>
+                        <input type="password" className="form-control " placeholder="password" size="22" onChange={(e) => getPassword(e.target.value)}></input>
+                    </div>
+                    <br/>
                     <button type="submit" onClick={signUp} className="sign_up_button btn btn-warning">
                         <Link to={(valid) ? "/" : "/signup"} className="signUp_link" id="signup">
                             Sign Up <i className="fa fa-user-plus"></i>

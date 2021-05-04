@@ -380,13 +380,13 @@ function Home() {
                             <form>
                                 <div className="form-group">
                                     <label for="url"><b>URL</b></label>
-                                    <input type="text" class="form-control" placeholder="add amazon item url" onChange={(e) => getUrl(e.target.value)}></input>
+                                    <input type="text" className="form-control" placeholder="add amazon item url" onChange={(e) => getUrl(e.target.value)}></input>
                                     <small className="form-text text -muted">use format https://www.amazon.com/...</small>
                                 </div>
                                 <br />
                                 <div className="form-group">
                                     <label for="currentPrice"><b>Current Price</b></label>
-                                    <input type="number" class="form-control " placeholder="$" onChange={(e) => getCurrentPrice(e.target.value)}></input>
+                                    <input type="number" className="form-control " placeholder="$" onChange={(e) => getCurrentPrice(e.target.value)}></input>
                                     <small className="form-text text -muted">enter the price you see on amazon item page</small>
                                 </div>
                             </form>

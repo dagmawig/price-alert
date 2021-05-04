@@ -9,7 +9,8 @@
     justify-content: center;
     }
 .login_form {
-        width: 100%;
-        margin: auto;
-        padding: 20px;
+        padding: 20px; 
+    }
+.form-control {
+        width: 300px;
     }

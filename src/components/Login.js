@@ -41,18 +41,31 @@ function Login() {
 
     return (
         <div className="login row">
-            <div className="login_form col-sm-6">
+            <div className="login_form col-sm-5">
                 <form>
-                    <h3>Welcome To Amazon Price Alert</h3>
-                    <br/>
-                    Email<br/>
-                    <input type="email" size="22" onChange={(e)=>getEmail(e.target.value)}/><br/><br/>
-                    Password<br/>
-                    <input type="password" size="22" onChange={(e)=>getPassword(e.target.value)}/><br/><br/>
+                    <h4>Welcome To Amazon Price Alert</h4>
+                    <br />
+
+                    
+                        <div className="form-group">
+                            <label for="email"><b>Email</b></label>
+                            <input type="email" className="form-control" placeholder="email" size="22" onChange={(e) => getEmail(e.target.value)}></input>
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label for="password"><b>Password</b></label>
+                            <input type="password" className="form-control " placeholder="password" size="22" onChange={(e) => getPassword(e.target.value)}></input>
+                        </div>
+                    
+                    <br />
+                    {/* Email<br />
+                    <input type="email" size="22" onChange={(e) => getEmail(e.target.value)} /><br /><br />
+                    Password<br />
+                    <input type="password" size="22" onChange={(e) => getPassword(e.target.value)} /><br /><br /> */}
                     <button type="submit" onClick={signIn} className="login_signIn btn btn-warning">
                         Sign In <i className="fa fa-sign-in"></i>
                     </button>
-                    <br/><br/>
+                    <br /><br />
                     <div>
                         <Link to="/signup">
                             <a>New user? Create account here.</a>
