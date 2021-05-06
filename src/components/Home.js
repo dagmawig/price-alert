@@ -7,6 +7,9 @@ import profile from '../images/profile-picture.png';
 
 
 function Home() {
+
+
+
     const stateSelector = useSelector((state) => state.price);
     const dispatch = useDispatch();
     let loading = stateSelector.loading;
@@ -22,7 +25,7 @@ function Home() {
 
     function openAddItem() {
         document.getElementById('url').value = '';
-        document.getElementById('currentP').value ='';
+        document.getElementById('currentP').value = '';
         getUrl('');
         getCurrentPrice('');
         window.$('#openAddItem').modal('show');
@@ -177,24 +180,42 @@ function Home() {
     }
 
     function handleAddItem(e) {
-        if(e.key === 'Enter') {
+        if (e.key === 'Enter') {
             confirmPrice(e);
         }
     }
 
     function handleAddToList(e) {
-        if(e.key === 'Enter') {
+        if (e.key === 'Enter') {
             addToList(e);
         }
     }
 
     function handleProfile(e) {
-        if(e.key === 'Enter') {
+        if (e.key === 'Enter') {
             setProfile(e);
         }
     }
 
+
+    // useEffect(() => {
+    //     console.log(window.pageYOffset);
+    //     const scrollFun = () => {
+    //       if (window.pageYOffset%50 >= 45) {
+    //         console.log("scrolled 50-ish pixles")
+    //       }
+    //       console.log(document.getElementById("addItem").offsetTop)
+    //     }
+        
+    //     window.addEventListener("scroll", scrollFun);
+      
+    //     return () => {
+    //       window.removeEventListener("scroll", scrollFun);
+    //     };
+    //   }, []);
+    
     useEffect(() => {
+
         async function loadUserData() {
             let res = await axios.post('http://localhost:3001/loadData', { userID: localStorage.getItem("userID") });
 
@@ -210,6 +231,8 @@ function Home() {
                 dispatch(updateUserData(data));
                 dispatch(setLoading(false));
             })
+        
+
     }, []);
 
     let total = Array.from(Array(10).keys());
@@ -348,7 +371,7 @@ function Home() {
     });
     return (
         <div className="home container">
-            <div className="home_profile row">
+            <div className="home_profile row" id="profile">
                 <div className="home_card card col-12">
                     {
                         (!loading && !stateSelector.userData.pic) ?
@@ -381,8 +404,8 @@ function Home() {
                     }
                 </div>
             </div>
-            <div className="home_add_item row">
-                <button className="add_item_button btn btn-outline-success col-6" type="button" onClick={openAddItem}>
+            <div className="home_add_item row" id="addItem">
+                <button className="add_item_button col-6 btn btn-outline-success" type="button" onClick={openAddItem}>
                     ADD ITEM
                 </button>
             </div>
@@ -395,9 +418,10 @@ function Home() {
                 </div>
             </div>
             <nav className="home_footer navbar fixed-bottom bg-warning">
+                dfdfg
             </nav>
 
-            <div className="modal" id="openAddItem" tabIndex="-1">
+            <div className="modal fade" id="openAddItem" tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content border-warning">
                         <div className="modal-header border-bottom border-warning bg-warning">
@@ -427,7 +451,7 @@ function Home() {
                 </div>
             </div>
 
-            <div className="modal" id="openAddToList" tabIndex="-1">
+            <div className="modal fade" id="openAddToList" tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content border-warning">
                         <div className="modal-header border-bottom border-warning bg-warning">
@@ -444,7 +468,7 @@ function Home() {
                             <form>
                                 <div className="form-group">
                                     <label for="itemName"><b>Item Name</b></label>
-                                    <input type="text" class="form-control" id="itemName" placeholder="unique item name" onChange={(e) => getItemName(e.target.value)} onKeyPress={handleAddToList}></input>
+                                    <input type="text" className="form-control" id="itemName" placeholder="unique item name" onChange={(e) => getItemName(e.target.value)} onKeyPress={handleAddToList}></input>
                                     <small className="form-text text -muted">give the item a name you can remember</small>
                                 </div>
                                 <br /><br />
@@ -454,7 +478,7 @@ function Home() {
                                         <div className="input-group-prepend">
                                             <span className="input-group-text" id="basic-addon1">$</span>
                                         </div>
-                                        <input type="number" class="form-control" id="targetPrice" value={targetP[0]} placeholder="XXXX.XX" onChange={(e) => getTargetP([e.target.value, (currentPrice - e.target.value) * 100 / currentPrice])} onKeyPress={handleAddToList}></input>
+                                        <input type="number" className="form-control" id="targetPrice" value={targetP[0]} placeholder="XXXX.XX" onChange={(e) => getTargetP([e.target.value, (currentPrice - e.target.value) * 100 / currentPrice])} onKeyPress={handleAddToList}></input>
                                     </div>
 
                                     <small className="form-text text -muted">enter a target price point you want to get email alert for</small>
@@ -465,7 +489,7 @@ function Home() {
                                 <div className="form-group">
                                     <label for="percentDiscount"><b>% Discount</b></label>
                                     <div className="input-group">
-                                        <input type="number" class="form-control" id="targetPercent" placeholder="%" value={(!targetP[1]) ? "" : Math.round(targetP[1])} onChange={(e) => getTargetP([((100 - e.target.value) * currentPrice / 100).toFixed(2), e.target.value])} onKeyPress={handleAddToList}></input>
+                                        <input type="number" className="form-control" id="targetPercent" placeholder="%" value={(!targetP[1]) ? "" : Math.round(targetP[1])} onChange={(e) => getTargetP([((100 - e.target.value) * currentPrice / 100).toFixed(2), e.target.value])} onKeyPress={handleAddToList}></input>
                                         <div className="input-group-append">
                                             <span className="input-group-text" id="basic-addon2">.00 %</span>
                                         </div>
@@ -483,7 +507,7 @@ function Home() {
                 </div>
             </div>
 
-            <div className="modal" id="openDeleteModal" tabIndex="-1">
+            <div className="modal fade" id="openDeleteModal" tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content border-danger">
                         <div className="modal-header border-bottom border-danger bg-danger">
@@ -503,7 +527,7 @@ function Home() {
                 </div>
             </div>
 
-            <div className="modal" id="openProfile" tabIndex="-1">
+            <div className="modal fade" id="openProfile" tabIndex="-1">
                 <div className="modal-dialog">
                     <div className="modal-content border-info">
                         <div className="modal-header border-bottom border-info bg-info">
@@ -514,7 +538,7 @@ function Home() {
                             <form>
                                 <div className="form-group">
                                     <label for="name"><b>Name</b></label>
-                                    <input type="text" class="form-control" placeholder="enter your name" onChange={(e) => getName(e.target.value)} onKeyPress={handleProfile}></input>
+                                    <input type="text" className="form-control" placeholder="enter your name" onChange={(e) => getName(e.target.value)} onKeyPress={handleProfile}></input>
                                 </div>
                                 <br />
                                 <div className="form-group">

@@ -21,7 +21,7 @@ function Header() {
             <div className="header_row row bg-warning">
                 <img className="header_img col-2" alt="icon" src={icon}></img>
                 <div className="header_title  col-8">
-                    <h3 className="header_text">AMAZON PRICE ALERT</h3>
+                    <h3 className="header_text"><b>AMAZON PRICE ALERT</b></h3>
                 </div>
                 <div className="header_logout col-2">
                     <button className="header_button btn btn-outline-danger" type="button" onClick={logout}>

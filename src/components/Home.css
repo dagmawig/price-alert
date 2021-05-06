@@ -30,14 +30,18 @@ img {
     font-family: Brush Script MT,cursive;
 }
 .home_add_item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin: 5px 0;
+    margin: 5px auto;
+    
 }
+.sticky {
+    position: fixed;
+    top: 55px;
+    width: 100%;
+}
+
 .add_item_button {
     font-weight: bold;
+    margin: auto;
 }
 .home_item {
     display: flex;
