@@ -199,21 +199,19 @@ function Home() {
 
 
     // useEffect(() => {
-    //     console.log(window.pageYOffset);
     //     const scrollFun = () => {
     //       if (window.pageYOffset%50 >= 45) {
     //         console.log("scrolled 50-ish pixles")
+    // console.log(window.pageScrollY)
     //       }
-    //       console.log(document.getElementById("addItem").offsetTop)
     //     }
-        
+
     //     window.addEventListener("scroll", scrollFun);
-      
+
     //     return () => {
     //       window.removeEventListener("scroll", scrollFun);
     //     };
     //   }, []);
-    
     useEffect(() => {
 
         async function loadUserData() {
@@ -231,7 +229,21 @@ function Home() {
                 dispatch(updateUserData(data));
                 dispatch(setLoading(false));
             })
-        
+
+        // const scrollFun = () => {
+        //     console.log(window.scrollY)
+
+        //     if (window.pageYOffset % 50 >= 45) {
+        //         console.log("scrolled 50-ish pixles")
+        //     }
+        // }
+
+        // window.addEventListener('scroll', scrollFun);
+
+        // return () => {
+        //     window.removeEventListener('scroll', scrollFun);
+        // };
+
 
     }, []);
 
@@ -317,7 +329,7 @@ function Home() {
                     <button className="accordion-button collapsed bg-warning" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${val}`} aria-expanded="false" aria-controls={`collapse${val}`}>
                         <div className="item_header row">
                             <div className="item_name col-4">
-                                Item Name
+                                {i}
                             </div>
                             <div className="price_section col-8">
                                 <div className="price row">
@@ -404,11 +416,11 @@ function Home() {
                     }
                 </div>
             </div>
-            <div className="home_add_item row" id="addItem">
+            {/* <div className="home_add_item row" id="addItem">
                 <button className="add_item_button col-6 btn btn-outline-success" type="button" onClick={openAddItem}>
                     ADD ITEM
                 </button>
-            </div>
+            </div> */}
             <div className="home_item row">
                 <div className="accordion col-12" id="accordion-parent-real">
                     {itemU}
@@ -418,7 +430,9 @@ function Home() {
                 </div>
             </div>
             <nav className="home_footer navbar fixed-bottom bg-warning">
-                dfdfg
+                <button className="add_item_button col-6 btn btn-outline" type="button" onClick={openAddItem}>
+                    <b>ADD ITEM</b>
+                </button>
             </nav>
 
             <div className="modal fade" id="openAddItem" tabIndex="-1">
