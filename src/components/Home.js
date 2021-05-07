@@ -197,21 +197,6 @@ function Home() {
         }
     }
 
-
-    // useEffect(() => {
-    //     const scrollFun = () => {
-    //       if (window.pageYOffset%50 >= 45) {
-    //         console.log("scrolled 50-ish pixles")
-    // console.log(window.pageScrollY)
-    //       }
-    //     }
-
-    //     window.addEventListener("scroll", scrollFun);
-
-    //     return () => {
-    //       window.removeEventListener("scroll", scrollFun);
-    //     };
-    //   }, []);
     useEffect(() => {
 
         async function loadUserData() {
@@ -230,24 +215,7 @@ function Home() {
                 dispatch(setLoading(false));
             })
 
-        // const scrollFun = () => {
-        //     console.log(window.scrollY)
-
-        //     if (window.pageYOffset % 50 >= 45) {
-        //         console.log("scrolled 50-ish pixles")
-        //     }
-        // }
-
-        // window.addEventListener('scroll', scrollFun);
-
-        // return () => {
-        //     window.removeEventListener('scroll', scrollFun);
-        // };
-
-
     }, []);
-
-    let total = Array.from(Array(10).keys());
 
     let userData = stateSelector.userData;
 
@@ -322,65 +290,7 @@ function Home() {
             </div>
         );
     })
-    const item = total.map((val, i) => {
-        return (
-            <div className="accordion-item" key={i}>
-                <h2 className="accordion-header" id={`heading${val}`}>
-                    <button className="accordion-button collapsed bg-warning" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${val}`} aria-expanded="false" aria-controls={`collapse${val}`}>
-                        <div className="item_header row">
-                            <div className="item_name col-4">
-                                {i}
-                            </div>
-                            <div className="price_section col-8">
-                                <div className="price row">
-                                    <div className="original_price_title col-6">
-                                        Original Price:
-                                        </div>
-                                    <div className="original_price_number col-6">
-                                        $450.00
-                                        </div>
-                                    <div className="target_price_title col-6">
-                                        Target Price:
-                                        </div>
-                                    <div className="target_price_number col-6">
-                                        $400.00
-                                        </div>
-                                    <div className="current_price_title col-6">
-                                        Current Price:
-                                        </div>
-                                    <div className="current_price_number col-6">
-                                        $415.00
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </button>
-                </h2>
-                <div id={`collapse${val}`} className="accordion-collapse collapse" aria-aria-labelledby={`heading${val}`} data-bs-parent="#accordion-parent">
-                    <div className="accordion-body">
-                        <div className="item_detail row">
-                            <div className="date_section col-3">
-                                <div className="date_added row">
-                                    <div className="date_added_title text-info col-12">
-                                        Date Added
-                                    </div>
-                                    <div className="date_added_date text-info col-12">
-                                        Wed Mar 24 2021
-                                    </div>
-                                </div>
-                            </div>
-                            <button className="visit_item_button btn btn-outline-success col-4" type="button">
-                                Visit Item &nbsp;&nbsp;&nbsp;&nbsp;  <i className="fa fa-arrow-circle-right fa" ></  i>
-                            </button>
-                            <button className="remove_item_button btn btn-outline-danger col-2" type="button">
-                                Delete <i className="fa fa-trash-o fa" ></  i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    });
+    
     return (
         <div className="home container">
             <div className="home_profile row" id="profile">
@@ -416,17 +326,9 @@ function Home() {
                     }
                 </div>
             </div>
-            {/* <div className="home_add_item row" id="addItem">
-                <button className="add_item_button col-6 btn btn-outline-success" type="button" onClick={openAddItem}>
-                    ADD ITEM
-                </button>
-            </div> */}
             <div className="home_item row">
                 <div className="accordion col-12" id="accordion-parent-real">
                     {itemU}
-                </div>
-                <div className="accordion col-12" id="accordion-parent">
-                    {item}
                 </div>
             </div>
             <nav className="home_footer navbar fixed-bottom bg-warning">
