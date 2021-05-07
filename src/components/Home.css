@@ -204,6 +204,13 @@ a {
 button {
     font-weight: 500 !important;
 }
+.btn:focus, .btn:active {
+    outline: none !important;
+    box-shadow: none;
+}
+.btn > a {
+    color: white;
+}
 .form-group {
     width: 100%;
 }

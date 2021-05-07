@@ -278,8 +278,8 @@ function Home() {
                                     </div>
                                 </div>
                             </div>
-                            <button className="visit_item_button btn btn-outline-success col-4" type="button">
-                                <a href={userData.urlArr[i]} target="_blank" className="text-success">Visit Item &nbsp;&nbsp;&nbsp;&nbsp;  <i className="fa fa-arrow-circle-right text-success" ></  i></a>
+                            <button className="visit_item_button btn btn-success col-4" type="button">
+                                <a href={userData.urlArr[i]} target="_blank" >Visit Item &nbsp;&nbsp;&nbsp;&nbsp;  <i className="fa fa-arrow-circle-right" ></  i></a>
                             </button>
                             <button className="remove_item_button btn btn-outline-danger col-2" type="button" id={`${i}delete`} onClick={openDeleteModal}>
                                 Delete <i className="fa fa-trash-o text-danger" ></  i>
