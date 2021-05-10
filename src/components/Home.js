@@ -92,9 +92,6 @@ function Home() {
                     if (data.success) {
                         setConfirmedPrice(data.data)
                         window.$('#openAddItem').modal('hide');
-                        document.getElementById("name").value = '';
-                        document.getElementById("targetPrice").value = '';
-                        document.getElementById("targetPercent").value = '';
                         getTargetP(['', '']);
                         getItemName('');
                         window.$('#openAddToList').modal('show');
@@ -384,7 +381,7 @@ function Home() {
                             <form>
                                 <div className="form-group">
                                     <label for="itemName"><b>Item Name</b></label>
-                                    <input type="text" className="form-control" id="itemName" placeholder="unique item name" onChange={(e) => getItemName(e.target.value)} onKeyPress={handleAddToList}></input>
+                                    <input type="text" className="form-control" id="itemName" placeholder="unique item name" value={itemName} onChange={(e) => getItemName(e.target.value)} onKeyPress={handleAddToList}></input>
                                     <small className="form-text text -muted">give the item a name you can remember</small>
                                 </div>
                                 <br /><br />
