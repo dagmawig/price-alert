@@ -197,7 +197,7 @@ function Home() {
     useEffect(() => {
 
         async function loadUserData() {
-            let res = await axios.post('http://localhost:3001/loadData', { userID: localStorage.getItem("userID") });
+            let res = await axios.post('http://localhost:3001/loadData', { userID: localStorage.getItem("userID"), email: localStorage.getItem("email") });
 
             return res;
         }
