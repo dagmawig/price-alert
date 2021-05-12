@@ -21,7 +21,8 @@
 }
 img {
     margin: 10px auto;
-    height: 50%;
+    width: 50%;
+    max-height: 110px;
     object-fit: contain;
     border-radius: 10px;
 }
@@ -104,7 +105,7 @@ img {
 .item_detail {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 100%;
     margin: 0;
     font-size: 10pt;
@@ -116,6 +117,9 @@ img {
 .visit_item_button, .remove_item_button {
     font-size: 10pt;
     padding: 2px 1px;
+}
+.remove_item_button {
+    margin-left: auto;
 }
 .modal {
     margin-top: 10%;

@@ -45,7 +45,7 @@ function Home() {
         if (!name.split(' ').join('')) alert('enter your name');
         else {
             async function setProfile() {
-                let res = await axios.post("http://localhost:3001/setProfile", { userID: localStorage.getItem("userID"), name: name, pImg: pImg })
+                let res = await axios.post("https://price-drop-alert.glitch.me/setProfile", { userID: localStorage.getItem("userID"), name: name, pImg: pImg })
                     .catch(err => console.log(err));
 
                 return res;
@@ -78,7 +78,7 @@ function Home() {
             //dispatch(addPendingUrl(url));
 
             async function confirmUrl() {
-                let res = await axios.post('http://localhost:3001/confirmUrl', { url: url, price: currentPrice })
+                let res = await axios.post('https://price-drop-alert.glitch.me/confirmUrl', { url: url, price: currentPrice })
                     .catch(err => console.log(err));
 
                 return res;
@@ -116,7 +116,7 @@ function Home() {
         else if (parseFloat(parseFloat(targetP[0]).toFixed(2)) > parseFloat(parseFloat(currentPrice).toFixed(2))) alert('please enter target price that is less than current price')
         else {
             async function addUrl() {
-                let res = await axios.post('http://localhost:3001/addUrl', { userID: localStorage.getItem("userID"), url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) })
+                let res = await axios.post('https://price-drop-alert.glitch.me/addUrl', { userID: localStorage.getItem("userID"), url: url, itemName: itemName, originalP: parseFloat(currentPrice).toFixed(2), targetP: parseFloat(targetP[0]).toFixed(2) })
                     .catch(err => console.log(err));
 
                 return res;
@@ -154,7 +154,7 @@ function Home() {
         e.preventDefault();
 
         async function deleteItem() {
-            let res = await axios.post('http://localhost:3001/deleteItem', { userID: localStorage.getItem("userID"), itemIndex: pendingDeleteItem[0] })
+            let res = await axios.post('https://price-drop-alert.glitch.me/deleteItem', { userID: localStorage.getItem("userID"), itemIndex: pendingDeleteItem[0] })
                 .catch(err => console.log(err));
 
             return res;
@@ -197,7 +197,7 @@ function Home() {
     useEffect(() => {
 
         async function loadUserData() {
-            let res = await axios.post('http://localhost:3001/loadData', { userID: localStorage.getItem("userID"), email: localStorage.getItem("email") });
+            let res = await axios.post('https://price-drop-alert.glitch.me/loadData/', { userID: localStorage.getItem("userID"), email: localStorage.getItem("email") });
 
             return res;
         }
@@ -265,7 +265,7 @@ function Home() {
                 <div id={`collapse${i}`} className="accordion-collapse collapse" aria-aria-labelledby={`heading${i}`} data-bs-parent="#accordion-parent-real">
                     <div className="accordion-body">
                         <div className="item_detail row">
-                            <div className="date_section col-3">
+                            <div className="date_section col-4">
                                 <div className="date_added row">
                                     <div className="date_added_title text-info col-12">
                                         Date Added
