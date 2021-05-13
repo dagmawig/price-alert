@@ -168,6 +168,7 @@ function Home() {
                 if (data.success) {
                     dispatch(updateUserData(data.data));
                     window.$('#openDeleteModal').modal('hide');
+                    alert(`${pendingDeleteItem[1]} successfully deleted from price alert list.`);
                     dispatch(setLoading(false));
                 }
                 else {
