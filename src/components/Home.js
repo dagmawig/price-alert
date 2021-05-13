@@ -130,6 +130,7 @@ function Home() {
                     if (data.success) {
                         dispatch(updateUserData(data.data));
                         window.$('#openAddToList').modal('hide');
+                        alert(`Item added! \nYou will get email alert when price of \n${itemName} reaches $${parseFloat(targetP[0]).toFixed(2)}.`);
                         dispatch(setLoading(false));
                     }
                     else {
