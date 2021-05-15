@@ -9,11 +9,16 @@ import profile from '../images/profile-picture.png';
 function Home() {
 
 
-
+    // defining selector to import user state from redux store
     const stateSelector = useSelector((state) => state.price);
+    
+    // defining dispatch to send updated user state to redux store
     const dispatch = useDispatch();
+
+    // getting the state of app (loading or not)
     let loading = stateSelector.loading;
 
+    // defining local user states and thier setters
     const [url, getUrl] = useState('');
     const [currentPrice, getCurrentPrice] = useState('');
     const [confirmedPrice, setConfirmedPrice] = useState('');
@@ -23,6 +28,7 @@ function Home() {
     const [name, getName] = useState('');
     const [pImg, setImg] = useState('');
 
+    // function to handle opening of openAddItem modal
     function openAddItem() {
         document.getElementById('url').value = '';
         document.getElementById('currentP').value = '';
@@ -30,6 +36,8 @@ function Home() {
         getCurrentPrice('');
         window.$('#openAddItem').modal('show');
     }
+
+    // function to handle opening of openProfile modal
     function openProfile() {
         dispatch(setLoading(true));
         axios.get("https://dog.ceo/api/breeds/image/random")
@@ -41,6 +49,8 @@ function Home() {
             }).catch(err => console.log(err))
 
     }
+
+    // function to handle setting of user profile
     function setProfile() {
         if (!name.split(' ').join('')) alert('enter your name');
         else {
@@ -69,13 +79,14 @@ function Home() {
         }
     }
 
+
+    // function to handle item price confirmation
     function confirmPrice(e) {
 
         e.preventDefault();
         if (!url.split(' ').join('') || url.split(' ').join('').substring(0, 5).toLowerCase() !== 'https') alert("Enter a valid url including 'https'.");
         else if (!currentPrice.split(' ').join('') || currentPrice <= 0) alert("Current price of item should be more than 0");
         else {
-            //dispatch(addPendingUrl(url));
 
             async function confirmUrl() {
                 let res = await axios.post('https://price-drop-alert.glitch.me/confirmUrl', { url: url, price: currentPrice })
@@ -88,7 +99,6 @@ function Home() {
             confirmUrl()
                 .then(res => {
                     let data = res.data;
-                    console.log(data);
                     if (data.success) {
                         setConfirmedPrice(data.data)
                         window.$('#openAddItem').modal('hide');
@@ -106,13 +116,14 @@ function Home() {
 
     }
 
+    // function to handle addition of new item to tracking list
     function addToList(e) {
         e.preventDefault();
 
         let itemNameArr = stateSelector.userData.itemNameArr;
 
         if (itemNameArr.indexOf(itemName) !== -1) alert(`Entered item name already exists. Use a different item name.`);
-        else if (!targetP[0].split(' ').join('') || targetP[0] == 0) alert('enter target price more than zero.')
+        else if (!targetP[0].split(' ').join('') || targetP[0] === 0) alert('enter target price more than zero.')
         else if (parseFloat(parseFloat(targetP[0]).toFixed(2)) > parseFloat(parseFloat(currentPrice).toFixed(2))) alert('please enter target price that is less than current price')
         else {
             async function addUrl() {
@@ -126,7 +137,6 @@ function Home() {
             addUrl()
                 .then(res => {
                     let data = res.data;
-                    console.log(data);
                     if (data.success) {
                         dispatch(updateUserData(data.data));
                         window.$('#openAddToList').modal('hide');
@@ -141,6 +151,8 @@ function Home() {
         }
     }
 
+
+    // function to handle opening of openDeleteModal modal
     function openDeleteModal(e) {
         e.preventDefault();
 
@@ -151,6 +163,7 @@ function Home() {
         window.$('#openDeleteModal').modal('show');
     }
 
+    // function to handle deletion of item being tracked
     function handleDelete(e) {
         e.preventDefault();
 
@@ -178,6 +191,7 @@ function Home() {
             })
     }
 
+    // functions to enable subbmission of modal form through the 'Enter' key
     function handleAddItem(e) {
         if (e.key === 'Enter') {
             confirmPrice(e);
@@ -196,6 +210,7 @@ function Home() {
         }
     }
 
+    // useEffect hook used to reload user data when page is refreshed
     useEffect(() => {
 
         async function loadUserData() {
@@ -209,7 +224,6 @@ function Home() {
         loadUserData()
             .then(res => {
                 let data = res.data.data;
-                console.log(data);
                 dispatch(updateUserData(data));
                 dispatch(setLoading(false));
             })
@@ -218,12 +232,15 @@ function Home() {
 
     let userData = stateSelector.userData;
 
+    // function used to generate random dog pic to be used to profile pic
     const randomImg = () => {
         axios.get("https://dog.ceo/api/breeds/image/random")
             .then(resp => {
                 setImg(resp.data.message);
             }).catch(err => alert(`${err}`));
     }
+
+    // function used to generate DOM list of tracked items 
     const itemU = userData.itemNameArr.map((itemName, i) => {
 
         let date = new Date(userData.timeStampArr[i]);
@@ -346,13 +363,13 @@ function Home() {
                         <div className="modal-body add_item_modal_body row">
                             <form>
                                 <div className="form-group">
-                                    <label for="url"><b>URL</b></label>
+                                    <label htmlFor="url"><b>URL</b></label>
                                     <input type="text" className="form-control" id="url" placeholder="add amazon item url" onChange={(e) => getUrl(e.target.value)} onKeyPress={handleAddItem}></input>
                                     <small className="form-text text -muted">use format https://www.amazon.com/...</small>
                                 </div>
                                 <br />
                                 <div className="form-group">
-                                    <label for="currentPrice"><b>Current Price</b></label>
+                                    <label htmlFor="currentPrice"><b>Current Price</b></label>
                                     <input type="number" className="form-control " id="currentP" placeholder="$" onChange={(e) => getCurrentPrice(e.target.value)} onKeyPress={handleAddItem}></input>
                                     <small className="form-text text -muted">enter the price you see on amazon item page</small>
                                 </div>
@@ -382,13 +399,13 @@ function Home() {
                             </div>
                             <form>
                                 <div className="form-group">
-                                    <label for="itemName"><b>Item Name</b></label>
+                                    <label htmlFor="itemName"><b>Item Name</b></label>
                                     <input type="text" className="form-control" id="itemName" placeholder="unique item name" value={itemName} onChange={(e) => getItemName(e.target.value)} onKeyPress={handleAddToList}></input>
                                     <small className="form-text text -muted">give the item a name you can remember</small>
                                 </div>
                                 <br /><br />
                                 <div className="form-group">
-                                    <label for="targetPrice"><b>Target Price</b></label>
+                                    <label htmlFor="targetPrice"><b>Target Price</b></label>
                                     <div className="input-group">
                                         <div className="input-group-prepend">
                                             <span className="input-group-text" id="basic-addon1">$</span>
@@ -402,7 +419,7 @@ function Home() {
                                     <b>OR</b>
                                 </div>
                                 <div className="form-group">
-                                    <label for="percentDiscount"><b>% Discount</b></label>
+                                    <label htmlFor="percentDiscount"><b>% Discount</b></label>
                                     <div className="input-group">
                                         <input type="number" className="form-control" id="targetPercent" placeholder="%" value={(!targetP[1]) ? "" : Math.round(targetP[1])} onChange={(e) => getTargetP([((100 - e.target.value) * currentPrice / 100).toFixed(2), e.target.value])} onKeyPress={handleAddToList}></input>
                                         <div className="input-group-append">
@@ -452,12 +469,12 @@ function Home() {
                         <div className="modal-body modal_profile_body row">
                             <form>
                                 <div className="form-group">
-                                    <label for="name"><b>Name</b></label>
+                                    <label htmlFor="name"><b>Name</b></label>
                                     <input type="text" className="form-control" placeholder="enter your name" onChange={(e) => getName(e.target.value)} onKeyPress={handleProfile}></input>
                                 </div>
                                 <br />
                                 <div className="form-group">
-                                    <label for="profilePic" className="pic_label"><b>We picked a profile pic for you...</b></label>
+                                    <label htmlFor="profilePic" className="pic_label"><b>We picked a profile pic for you...</b></label>
                                     <div className="modal_profile_pic col-12">
                                         <img className="pending_pic" alt="pending pic" src={pImg}></img>
                                     </div>

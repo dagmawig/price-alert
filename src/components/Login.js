@@ -11,15 +11,14 @@ function Login() {
     const [email, getEmail] = useState('');
     const [password, getPassword] = useState('');
 
+    // function handling user sign in
     const signIn = (e) => {
         e.preventDefault();
 
-        console.log('signnnn')
         auth.signInWithEmailAndPassword(email, password)
             .then(() => {
 
                 let user = auth.currentUser;
-                console.log(user);
                 if (user.emailVerified) {
 
                     localStorage.setItem("priceAlert_userID", user.uid);
@@ -45,23 +44,17 @@ function Login() {
                 <form>
                     <h4>Welcome To Amazon Price Alert</h4>
                     <br />
-
-                    
-                        <div className="form-group">
-                            <label for="email"><b>Email</b></label>
-                            <input type="email" className="form-control" placeholder="email" size="22" onChange={(e) => getEmail(e.target.value)}></input>
-                        </div>
-                        <br />
-                        <div className="form-group">
-                            <label for="password"><b>Password</b></label>
-                            <input type="password" className="form-control " placeholder="password" size="22" onChange={(e) => getPassword(e.target.value)}></input>
-                        </div>
-                    
+                    <div className="form-group">
+                        <label for="email"><b>Email</b></label>
+                        <input type="email" className="form-control" placeholder="email" size="22" onChange={(e) => getEmail(e.target.value)}></input>
+                    </div>
                     <br />
-                    {/* Email<br />
-                    <input type="email" size="22" onChange={(e) => getEmail(e.target.value)} /><br /><br />
-                    Password<br />
-                    <input type="password" size="22" onChange={(e) => getPassword(e.target.value)} /><br /><br /> */}
+                    <div className="form-group">
+                        <label for="password"><b>Password</b></label>
+                        <input type="password" className="form-control " placeholder="password" size="22" onChange={(e) => getPassword(e.target.value)}></input>
+                    </div>
+
+                    <br />
                     <button type="submit" onClick={signIn} className="login_signIn btn btn-warning">
                         Sign In <i className="fa fa-sign-in"></i>
                     </button>

@@ -2,7 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
 import Login from './components/Login';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SignUp from './components/SignUp';
 import Loading from './components/Loading';
 import Reset from './components/PassReset';
@@ -11,7 +11,7 @@ import Reset from './components/PassReset';
 function App() {
 
   let homePage;
-  console.log(localStorage.getItem("priceAlert_userID"))
+  
   if (localStorage.getItem("priceAlert_userID")) {
     homePage = (
       <>

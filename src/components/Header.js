@@ -9,7 +9,7 @@ function Header() {
     const dispatch = useDispatch();
 
     function logout() {
-        localStorage.setItem("userID", "");
+        localStorage.setItem("priceAlert_userID", "");
 
         dispatch(reset());
 

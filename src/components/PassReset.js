@@ -7,6 +7,7 @@ function Reset() {
 
     const [email, getEmail] = useState('');
 
+    // function handling user password reset
     const resetPass = (e) => {
 
         e.preventDefault();

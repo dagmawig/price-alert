@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import './SignUp.css';
 import { auth } from './FirebaseConfig';
-import { useDispatch } from 'react-redux';
-import { setUserID } from './priceSlice';
 import { Link } from 'react-router-dom';
 
 function SignUp() {
 
-    const dispatch = useDispatch();
     const [email, getEmail] = useState('');
     const [password, getPassword] = useState('');
     const [valid, isValid] = useState(null);
+
+    // function handling user sign up
     const signUp = (e) => {
         e.preventDefault();
 

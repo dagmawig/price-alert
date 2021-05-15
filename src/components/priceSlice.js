@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
+// defining initial state of user data
 const initialState = {
     loading: false,
     userData: {
@@ -16,6 +16,7 @@ const initialState = {
     },
 };
 
+// defining reducers
 export const priceSlice = createSlice({
     name: 'price',
     initialState,
