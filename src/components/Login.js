@@ -22,7 +22,7 @@ function Login() {
                 console.log(user);
                 if (user.emailVerified) {
 
-                    localStorage.setItem("userID", user.uid);
+                    localStorage.setItem("priceAlert_userID", user.uid);
                     localStorage.setItem("email", email);
                     dispatch(setUserID(user.uid));
 

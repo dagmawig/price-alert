@@ -11,8 +11,8 @@ import Reset from './components/PassReset';
 function App() {
 
   let homePage;
-  console.log(localStorage.getItem("userID"))
-  if (localStorage.getItem("userID")) {
+  console.log(localStorage.getItem("priceAlert_userID"))
+  if (localStorage.getItem("priceAlert_userID")) {
     homePage = (
       <>
         <Header />
@@ -32,7 +32,7 @@ function App() {
 
   let signUp;
 
-  if (localStorage.getItem("userID")) {
+  if (localStorage.getItem("priceAlert_userID")) {
     signUp = (
       <>
         <Header />
